@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>215</height>
+    <width>981</width>
+    <height>803</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="label_1">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
+      <x>20</x>
+      <y>670</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>40</y>
+      <x>20</x>
+      <y>700</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>10</y>
+      <y>670</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -70,7 +70,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>40</y>
+      <y>700</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -121,8 +121,8 @@
    <widget class="QPushButton" name="connexionButton">
     <property name="geometry">
      <rect>
-      <x>244</x>
-      <y>10</y>
+      <x>220</x>
+      <y>670</y>
       <width>121</width>
       <height>23</height>
      </rect>
@@ -134,8 +134,8 @@
    <widget class="QPushButton" name="deconnexionButton">
     <property name="geometry">
      <rect>
-      <x>244</x>
-      <y>40</y>
+      <x>220</x>
+      <y>700</y>
       <width>121</width>
       <height>23</height>
      </rect>
@@ -147,8 +147,8 @@
    <widget class="QPushButton" name="envoiButton">
     <property name="geometry">
      <rect>
-      <x>244</x>
-      <y>90</y>
+      <x>360</x>
+      <y>670</y>
       <width>121</width>
       <height>61</height>
      </rect>
@@ -157,13 +157,364 @@
      <string>Envoi/Réception</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>10</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Latitude (en degrés décimaux) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>40</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Longitude (en degrés décimaux) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>70</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Alitude (en mètres) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>140</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fréquence cardiaque (en bpm) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>170</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FC max (en bpm) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>200</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Intensité de l'effort (en %) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>300</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Temps écoulé (en s) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>330</y>
+      <width>151</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Distance Parcourue (en km) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>360</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Vitesse (en km/h) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>390</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Calories dépensées (en kcal) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>500</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Taille (en cm) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>530</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Poids (en km) :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>470</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Âge (en années) : </string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_2">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>10</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_3">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>40</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_4">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>70</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_5">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>140</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_6">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>170</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_7">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>200</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_8">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>300</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_9">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>330</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_10">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>360</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_11">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>390</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_12">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>470</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_13">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>500</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_14">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>530</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_ip_15">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>670</y>
+      <width>451</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>981</width>
      <height>21</height>
     </rect>
    </property>

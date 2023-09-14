@@ -73,14 +73,30 @@ void MainWindow::gerer_donnees()
 {
     // Réception des données
     QByteArray reponse = tcpSocket->readAll();
+    QString trame = QString(reponse);
+    qDebug() << trame;
 
     // Affichage
     ui->lineEdit_reponse->setText(QString(reponse));
+
+    //Décodage
+    QStringList liste = trame.split(",");
+    qDebug() << "heure" << liste[1].mid(0,2);
+    qDebug() << "minutes" << liste[1].mid(2,2);
+    qDebug() << "secondes" << liste[1].mid(4,2);
+
+    //Date
+    int heures = liste[1].mid(0,2).toInt();
+    int minutes = liste[1].mid(2,2).toInt();
+    int secondes = liste[1].mid(4,2).toInt();
+    int timestamp = (heures * 3600 + minutes * 60 + secondes);
+    qDebug() << "timestamp : " << timestamp;
+    QString timestampQString = QString("%1").arg(timestamp);
+    //ui->lineEdit_Heure->setText(timestampQString);
 }
 
 void MainWindow::mettre_a_jour_ihm()
 {
-    qDebug() << "tic";
     // Préparation de la requête
     QByteArray requete;
     requete = "RETR\r\n";
