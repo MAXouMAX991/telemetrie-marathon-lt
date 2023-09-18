@@ -81,18 +81,92 @@ void MainWindow::gerer_donnees()
 
     //Décodage
     QStringList liste = trame.split(",");
-    qDebug() << "heure" << liste[1].mid(0,2);
-    qDebug() << "minutes" << liste[1].mid(2,2);
-    qDebug() << "secondes" << liste[1].mid(4,2);
+    qDebug() << "Heures :" << liste[1].mid(0,2);
+    qDebug() << "Minutes :" << liste[1].mid(2,2);
+    qDebug() << "Secondes :" << liste[1].mid(4,2);
 
     //Date
     int heures = liste[1].mid(0,2).toInt();
     int minutes = liste[1].mid(2,2).toInt();
     int secondes = liste[1].mid(4,2).toInt();
     int timestamp = (heures * 3600 + minutes * 60 + secondes);
-    qDebug() << "timestamp : " << timestamp;
+    qDebug() << "Timestamp : " << timestamp;
     QString timestampQString = QString("%1").arg(timestamp);
     //ui->lineEdit_Heure->setText(timestampQString);
+
+    //Latitude
+    double latitude_degre = liste[2].mid(0,2).toDouble();
+    qDebug() << "Degrés :" << liste[2].mid(0,2);
+    double latitude_minutes = liste[2].mid(2,7).toDouble();
+    qDebug() << "Minutes :" << liste[2].mid(2,7);
+
+    //Nord ou Sud de l'Equateur
+    QString N_ou_S = liste[3].mid(0,1);
+    qDebug() << "N/S :" << liste[3].mid(0,1);
+
+    //Calcul Latitude
+    if( N_ou_S == "S"){
+        double latitude = (latitude_degre + (latitude_minutes / 60))*(-1);
+        qDebug() << "Latitude :" << latitude;
+    }else {
+        double latitude = latitude_degre + (latitude_minutes / 60);
+        qDebug() << "Latitude :" << latitude;
+    }
+
+    //Longitude
+    double longitude_degre = liste[4].mid(0,3).toDouble();
+    qDebug() << "Degrés :" << liste[4].mid(0,3);
+    double longitude_minutes = liste[4].mid(3,7).toDouble();
+    qDebug() << "Minutes :" << liste[4].mid(3,7);
+
+    //Ouest ou Est de Greenwich
+    QString W_ou_E = liste[5].mid(0,1);
+    qDebug() << "W/E :" << liste[5].mid(0,1);
+
+    //Calcul Longitude
+    if( W_ou_E == "W"){
+        double longitude = (longitude_degre + (longitude_minutes / 60))*(-1);
+        qDebug() << "Longitude :" << longitude;
+    }else {
+        double longitude = longitude_degre + (longitude_degre / 60);
+        qDebug() << "Longitude :" << longitude;
+    }
+
+    //Type de positionnement
+    int positionnement = liste[6].mid(0,1).toInt();
+    qDebug() << "Type de positionnement :" << liste[6].mid(0,1);
+
+    //Nombre de Satellites
+    int satellites = liste[7].mid(0,2).toInt();
+    qDebug() << "Nombre de satellites :" << liste[7].mid(0,2);
+
+    //Précision horizontale
+    float précision = liste[8].mid(0,3).toFloat();
+    qDebug() << "Précision horizontale :" << liste[8].mid(0,3);
+
+    //Altitude
+    float altitude = liste[9].mid(0,3).toFloat();
+    qDebug() << "Altitude :" << liste[9].mid(0,3);
+
+    //Unité altitude
+    QString unite_altitude = liste[10].mid(0,1);
+    qDebug() << "Unité :" << liste[10].mid(0,1);
+
+    //Hauteur de la géodésique au dessus de l'ellipsoïde WGS84
+    float hauteur_geodesique = liste[11].mid(0,3).toFloat();
+    qDebug() << "Hauteur géodésique :" << liste[11].mid(0,3);
+
+    //Unité hauteur
+    QString unite_hauteur = liste[12].mid(0,1);
+    qDebug() << "Unité :" << liste[12].mid(0,1);
+
+    //Temps depuis la dernière mise à jour DGPS
+    float temps_maj = liste[13].mid(0,3).toFloat();
+    qDebug() << "Temps depuis la dernière maj :" << liste[13].mid(0,3);
+
+    //Fréquence cardiaque
+    int frequence_cardiaque = liste[14].mid(0,4).toInt();
+    qDebug() << "Fréquence Cardiaque :" << liste[14].mid(0,4);
 }
 
 void MainWindow::mettre_a_jour_ihm()
