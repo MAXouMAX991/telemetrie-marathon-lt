@@ -25,6 +25,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Lancement du timer avec un tick toutes les 1000 ms
     pTimer->start(1000);
+
+    // Instanciation de l'image
+    pCarte = new QImage();
+
+    // Chargement depuis un fichier
+    pCarte->load(":/carte_la_rochelle_plan.png");
+
+    // Affichage dans un QLabel, ici label_carte
+    ui->label_carte->setPixmap(QPixmap::fromImage(*pCarte));
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +50,9 @@ MainWindow::~MainWindow()
 
     // Destruction de l'interface graphique
     delete ui;
+
+    // Suppression de l'image
+    delete pCarte;
 }
 
 void MainWindow::on_connexionButton_clicked()
@@ -77,7 +89,7 @@ void MainWindow::gerer_donnees()
     qDebug() << trame;
 
     // Affichage
-    ui->lineEdit_reponse->setText(QString(reponse));
+    ui->lineEdit_ip_15->setText(QString(reponse));
 
     //Décodage
     QStringList liste = trame.split(",");
