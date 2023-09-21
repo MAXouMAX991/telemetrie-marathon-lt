@@ -28,12 +28,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Instanciation de l'image
     pCarte = new QImage();
+    pCarte_Satellite = new QImage();
+    pCarte_Transparent = new QImage();
 
     // Chargement depuis un fichier
     pCarte->load(":/carte_la_rochelle_plan.png");
+    pCarte_Satellite->load(":/carte_la_rochelle_satellite.png");
+    pCarte_Transparent->load(":/carte_la_rochelle_transparent.png");
 
     // Affichage dans un QLabel, ici label_carte
     ui->label_carte->setPixmap(QPixmap::fromImage(*pCarte));
+    ui->label_carte_satellite->setPixmap(QPixmap::fromImage(*pCarte_Satellite));
+    ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
+
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +60,8 @@ MainWindow::~MainWindow()
 
     // Suppression de l'image
     delete pCarte;
+    delete pCarte_Satellite;
+    delete pCarte_Transparent;
 }
 
 void MainWindow::on_connexionButton_clicked()
@@ -116,12 +125,13 @@ void MainWindow::gerer_donnees()
     QString N_ou_S = liste[3].mid(0,1);
     qDebug() << "N/S :" << liste[3].mid(0,1);
 
+    double latitude = 0.0;
     //Calcul Latitude
     if( N_ou_S == "S"){
-        double latitude = (latitude_degre + (latitude_minutes / 60))*(-1);
+        latitude = (latitude_degre + (latitude_minutes / 60))*(-1);
         qDebug() << "Latitude :" << latitude;
     }else {
-        double latitude = latitude_degre + (latitude_minutes / 60);
+        latitude = latitude_degre + (latitude_minutes / 60);
         qDebug() << "Latitude :" << latitude;
     }
 
@@ -135,12 +145,13 @@ void MainWindow::gerer_donnees()
     QString W_ou_E = liste[5].mid(0,1);
     qDebug() << "W/E :" << liste[5].mid(0,1);
 
+    double longitude = 0.0;
     //Calcul Longitude
     if( W_ou_E == "W"){
-        double longitude = (longitude_degre + (longitude_minutes / 60))*(-1);
+        longitude = (longitude_degre + (longitude_minutes / 60))*(-1);
         qDebug() << "Longitude :" << longitude;
     }else {
-        double longitude = longitude_degre + (longitude_degre / 60);
+        longitude = longitude_degre + (longitude_degre / 60);
         qDebug() << "Longitude :" << longitude;
     }
 
@@ -179,6 +190,28 @@ void MainWindow::gerer_donnees()
     //Fréquence cardiaque
     int frequence_cardiaque = liste[14].mid(0,4).toInt();
     qDebug() << "Fréquence Cardiaque :" << liste[14].mid(0,4);
+
+    float px = 694 * ( (longitude - -1.195703 ) / (-1.136125 - -1.195703) );
+    float py = 638 * ( 1.0 - (latitude - 46.135451) / (46.173311 - 46.135451) );
+
+    // Préparation du contexte de dessin sur une image existante
+    QPainter p(pCarte_Transparent);
+    // Choix de la couleur
+    if ((lastpx != 0.0) && (lastpy != 0.0)){
+        p.setPen(Qt::red);
+        // Dessin d'une ligne
+        p.drawLine(lastpx, lastpy, px, py);
+        p.end();
+        ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
+    }
+    else {
+    }
+    lastpx = px;
+    lastpy = py;
+    qDebug()<< "px:"<<px;
+    qDebug()<< "py:"<<px;
+    qDebug()<< "lastpx:"<<lastpx;
+    qDebug()<< "lastpy:"<<lastpy;
 }
 
 void MainWindow::mettre_a_jour_ihm()

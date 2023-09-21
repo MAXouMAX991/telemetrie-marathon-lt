@@ -239,7 +239,7 @@
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>500</y>
+      <y>570</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -252,7 +252,7 @@
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>530</y>
+      <y>600</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -265,7 +265,7 @@
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>470</y>
+      <y>540</y>
       <width>91</width>
       <height>20</height>
      </rect>
@@ -395,7 +395,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>470</y>
+      <y>540</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -408,7 +408,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>500</y>
+      <y>570</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -421,7 +421,7 @@
     <property name="geometry">
      <rect>
       <x>970</x>
-      <y>530</y>
+      <y>600</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -470,6 +470,77 @@
     </property>
     <property name="pixmap">
      <pixmap resource="ressources.qrc">:/carte_la_rochelle_plan.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_carte_satellite">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>694</width>
+      <height>638</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="ressources.qrc">:/carte_la_rochelle_satellite.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_carte_transparent">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>694</width>
+      <height>638</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="ressources.qrc">:/carte_la_rochelle_transparent.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>440</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>490</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>440</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Afficher Carte Plan :</string>
     </property>
    </widget>
   </widget>

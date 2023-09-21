@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
+#include <QPainter>
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +38,10 @@ private:
     QTcpSocket *tcpSocket;
     QTimer *pTimer;
     QImage *pCarte;
+    QImage *pCarte_Satellite;
+    QImage *pCarte_Transparent;
+    float lastpx = 0.0;
+    float lastpy = 0.0;
 };
 
 #endif // MAINWINDOW_H
