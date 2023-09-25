@@ -113,7 +113,6 @@ void MainWindow::gerer_donnees()
     int timestamp = (heures * 3600 + minutes * 60 + secondes);
     qDebug() << "Timestamp : " << timestamp;
     QString timestampQString = QString("%1").arg(timestamp);
-    //ui->lineEdit_Heure->setText(timestampQString);
 
     //Latitude
     double latitude_degre = liste[2].mid(0,2).toDouble();
@@ -134,6 +133,7 @@ void MainWindow::gerer_donnees()
         latitude = latitude_degre + (latitude_minutes / 60);
         qDebug() << "Latitude :" << latitude;
     }
+    ui->lineEdit_ip_2->setText(QString::number(latitude));
 
     //Longitude
     double longitude_degre = liste[4].mid(0,3).toDouble();
@@ -154,6 +154,7 @@ void MainWindow::gerer_donnees()
         longitude = longitude_degre + (longitude_degre / 60);
         qDebug() << "Longitude :" << longitude;
     }
+    ui->lineEdit_ip_3->setText(QString::number(longitude));
 
     //Type de positionnement
     int positionnement = liste[6].mid(0,1).toInt();
@@ -170,6 +171,7 @@ void MainWindow::gerer_donnees()
     //Altitude
     float altitude = liste[9].mid(0,3).toFloat();
     qDebug() << "Altitude :" << liste[9].mid(0,3);
+    ui->lineEdit_ip_4->setText(QString::number(altitude));
 
     //Unité altitude
     QString unite_altitude = liste[10].mid(0,1);
@@ -190,6 +192,7 @@ void MainWindow::gerer_donnees()
     //Fréquence cardiaque
     int frequence_cardiaque = liste[14].mid(0,4).toInt();
     qDebug() << "Fréquence Cardiaque :" << liste[14].mid(0,4);
+    ui->lineEdit_ip_5->setText(QString::number(frequence_cardiaque));
 
     float px = 694 * ( (longitude - -1.195703 ) / (-1.136125 - -1.195703) );
     float py = 638 * ( 1.0 - (latitude - 46.135451) / (46.173311 - 46.135451) );
@@ -212,6 +215,9 @@ void MainWindow::gerer_donnees()
     qDebug()<< "py:"<<px;
     qDebug()<< "lastpx:"<<lastpx;
     qDebug()<< "lastpy:"<<lastpy;
+
+    //AB = R x arccos( sin(latA)xsin(latB) + cos(latA) x cos(latB)xcos(lonA−lonB))
+
 }
 
 void MainWindow::mettre_a_jour_ihm()
