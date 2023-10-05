@@ -258,7 +258,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Poids (en km) :</string>
+     <string>Poids (en kg) :</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_16">
@@ -391,45 +391,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_ip_12">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>540</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_ip_13">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>570</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_ip_14">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>600</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEdit_ip_15">
     <property name="geometry">
      <rect>
@@ -554,6 +515,45 @@
     </property>
     <property name="text">
      <string>Afficher Carte Satellite :</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>540</y>
+      <width>51</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_2">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>570</y>
+      <width>51</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>220</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_3">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>600</y>
+      <width>51</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>300</number>
     </property>
    </widget>
   </widget>

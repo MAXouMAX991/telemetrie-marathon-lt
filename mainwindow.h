@@ -7,6 +7,12 @@
 #include <QTimer>
 #include <QDebug>
 #include <QPainter>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+
+
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +46,7 @@ private:
     QImage *pCarte;
     QImage *pCarte_Satellite;
     QImage *pCarte_Transparent;
+    QSqlDatabase bdd;
     float lastpx = 0.0;
     float lastpy = 0.0;
 };

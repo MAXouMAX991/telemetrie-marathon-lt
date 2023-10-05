@@ -41,6 +41,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_carte_satellite->setPixmap(QPixmap::fromImage(*pCarte_Satellite));
     ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
 
+    bdd = QSqlDatabase::addDatabase("QSQLITE");
+    bdd.setDatabaseName(QCoreApplication::applicationDirPath() + "/marathon.sqlite");
+    if (!bdd.open())
+    {
+        qDebug() << "Error: connection with database fail";
+    }
+    else
+    {
+        qDebug() << "Database: connection ok";
+    }
 }
 
 MainWindow::~MainWindow()
@@ -62,6 +72,8 @@ MainWindow::~MainWindow()
     delete pCarte;
     delete pCarte_Satellite;
     delete pCarte_Transparent;
+
+    //bdd.close;
 }
 
 void MainWindow::on_connexionButton_clicked()
@@ -216,7 +228,16 @@ void MainWindow::gerer_donnees()
     qDebug()<< "lastpx:"<<lastpx;
     qDebug()<< "lastpy:"<<lastpy;
 
-    //AB = R x arccos( sin(latA)xsin(latB) + cos(latA) x cos(latB)xcos(lonA−lonB))
+    //Calcul de FCmax
+    int age = ui->spinBox->value();
+    int FCmax = 220 - age;
+    ui->lineEdit_ip_6->setText(QString::number(FCmax));
+
+    double Intensite = (frequence_cardiaque * 100)/FCmax;
+    qDebug() << "Intensité :" << Intensite;
+    ui->progressBar->setValue(Intensite);
+
+    //AB = 6378 x arccos( sin(latA)xsin(latB) + cos(latA) x cos(latB)xcos(lonA−lonB))
 
 }
 
