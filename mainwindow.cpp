@@ -38,9 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Affichage dans un QLabel, ici label_carte
     ui->label_carte->setPixmap(QPixmap::fromImage(*pCarte));
-    ui->label_carte_satellite->setPixmap(QPixmap::fromImage(*pCarte_Satellite));
     ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
 
+    //Connection à la base données
     bdd = QSqlDatabase::addDatabase("QSQLITE");
     bdd.setDatabaseName(QCoreApplication::applicationDirPath() + "/marathon.sqlite");
     if (!bdd.open())
@@ -51,6 +51,14 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         qDebug() << "Database: connection ok";
     }
+
+    lastpx = 0.0;
+    lastpy = 0.0;
+    distAB = 0.0;
+    lastdistance = 0.0;
+    lastlat_rad = 0.0;
+    lastlong_rad = 0.0;
+    vitesse = 0.0;
 }
 
 MainWindow::~MainWindow()
@@ -102,6 +110,11 @@ void MainWindow::on_envoiButton_clicked()
     tcpSocket->write(requete);
 }
 
+//Conversion degré to radian
+double degToRad(double degrees){
+    return degrees * M_PI / 180.0;
+}
+
 void MainWindow::gerer_donnees()
 {
     // Réception des données
@@ -109,136 +122,156 @@ void MainWindow::gerer_donnees()
     QString trame = QString(reponse);
     qDebug() << trame;
 
-    // Affichage
-    ui->lineEdit_ip_15->setText(QString(reponse));
-
-    //Décodage
+    //Séparation des données de la trame
     QStringList liste = trame.split(",");
-    qDebug() << "Heures :" << liste[1].mid(0,2);
-    qDebug() << "Minutes :" << liste[1].mid(2,2);
-    qDebug() << "Secondes :" << liste[1].mid(4,2);
-
-    //Date
-    int heures = liste[1].mid(0,2).toInt();
-    int minutes = liste[1].mid(2,2).toInt();
-    int secondes = liste[1].mid(4,2).toInt();
-    int timestamp = (heures * 3600 + minutes * 60 + secondes);
-    qDebug() << "Timestamp : " << timestamp;
-    QString timestampQString = QString("%1").arg(timestamp);
-
-    //Latitude
-    double latitude_degre = liste[2].mid(0,2).toDouble();
-    qDebug() << "Degrés :" << liste[2].mid(0,2);
-    double latitude_minutes = liste[2].mid(2,7).toDouble();
-    qDebug() << "Minutes :" << liste[2].mid(2,7);
-
-    //Nord ou Sud de l'Equateur
-    QString N_ou_S = liste[3].mid(0,1);
-    qDebug() << "N/S :" << liste[3].mid(0,1);
-
-    double latitude = 0.0;
-    //Calcul Latitude
-    if( N_ou_S == "S"){
-        latitude = (latitude_degre + (latitude_minutes / 60))*(-1);
-        qDebug() << "Latitude :" << latitude;
-    }else {
-        latitude = latitude_degre + (latitude_minutes / 60);
-        qDebug() << "Latitude :" << latitude;
-    }
-    ui->lineEdit_ip_2->setText(QString::number(latitude));
-
-    //Longitude
-    double longitude_degre = liste[4].mid(0,3).toDouble();
-    qDebug() << "Degrés :" << liste[4].mid(0,3);
-    double longitude_minutes = liste[4].mid(3,7).toDouble();
-    qDebug() << "Minutes :" << liste[4].mid(3,7);
-
-    //Ouest ou Est de Greenwich
-    QString W_ou_E = liste[5].mid(0,1);
-    qDebug() << "W/E :" << liste[5].mid(0,1);
-
-    double longitude = 0.0;
-    //Calcul Longitude
-    if( W_ou_E == "W"){
-        longitude = (longitude_degre + (longitude_minutes / 60))*(-1);
-        qDebug() << "Longitude :" << longitude;
-    }else {
-        longitude = longitude_degre + (longitude_degre / 60);
-        qDebug() << "Longitude :" << longitude;
-    }
-    ui->lineEdit_ip_3->setText(QString::number(longitude));
-
-    //Type de positionnement
-    int positionnement = liste[6].mid(0,1).toInt();
-    qDebug() << "Type de positionnement :" << liste[6].mid(0,1);
 
     //Nombre de Satellites
-    int satellites = liste[7].mid(0,2).toInt();
     qDebug() << "Nombre de satellites :" << liste[7].mid(0,2);
+    int satellites = liste[7].mid(0,2).toInt();
+    ui->lineEdit_ip_12->setText(QString::number(satellites));
 
-    //Précision horizontale
-    float précision = liste[8].mid(0,3).toFloat();
-    qDebug() << "Précision horizontale :" << liste[8].mid(0,3);
-
-    //Altitude
-    float altitude = liste[9].mid(0,3).toFloat();
-    qDebug() << "Altitude :" << liste[9].mid(0,3);
-    ui->lineEdit_ip_4->setText(QString::number(altitude));
-
-    //Unité altitude
-    QString unite_altitude = liste[10].mid(0,1);
-    qDebug() << "Unité :" << liste[10].mid(0,1);
-
-    //Hauteur de la géodésique au dessus de l'ellipsoïde WGS84
-    float hauteur_geodesique = liste[11].mid(0,3).toFloat();
-    qDebug() << "Hauteur géodésique :" << liste[11].mid(0,3);
-
-    //Unité hauteur
-    QString unite_hauteur = liste[12].mid(0,1);
-    qDebug() << "Unité :" << liste[12].mid(0,1);
-
-    //Temps depuis la dernière mise à jour DGPS
-    float temps_maj = liste[13].mid(0,3).toFloat();
-    qDebug() << "Temps depuis la dernière maj :" << liste[13].mid(0,3);
-
-    //Fréquence cardiaque
-    int frequence_cardiaque = liste[14].mid(0,4).toInt();
-    qDebug() << "Fréquence Cardiaque :" << liste[14].mid(0,4);
-    ui->lineEdit_ip_5->setText(QString::number(frequence_cardiaque));
-
-    float px = 694 * ( (longitude - -1.195703 ) / (-1.136125 - -1.195703) );
-    float py = 638 * ( 1.0 - (latitude - 46.135451) / (46.173311 - 46.135451) );
-
-    // Préparation du contexte de dessin sur une image existante
-    QPainter p(pCarte_Transparent);
-    // Choix de la couleur
-    if ((lastpx != 0.0) && (lastpy != 0.0)){
-        p.setPen(Qt::red);
-        // Dessin d'une ligne
-        p.drawLine(lastpx, lastpy, px, py);
-        p.end();
-        ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
+    //Condition pour le décodage de la trame
+    if (satellites < 3)
+    {
+        ui->lineEdit_ip_12->setText("Nombre de satellites insuffisant");
     }
-    else {
+    else{
+        // Réception des données
+        QByteArray reponse = tcpSocket->readAll();
+        QString trame = QString(reponse);
+        qDebug() << trame;
+
+        // Affichage de la trame complète
+        ui->lineEdit_ip_15->setText(QString(reponse));
+
+        //Décodage de l'heure
+        int heures = liste[1].mid(0,2).toInt();
+        int minutes = liste[1].mid(2,2).toInt();
+        int secondes = liste[1].mid(4,2).toInt();
+        int timestamp = (heures * 3600 + minutes * 60 + secondes);
+        QString timestampQString = QString("%1").arg(timestamp);
+
+        //Temps écoulé
+        int temps_ecoule_heures = ((timestamp - 28957) / 3600);
+        int temps_ecoule_minutes = (timestamp % 3600) / 60;
+        int temps_ecoule_secondes = timestamp % 60;
+
+        //Conversion du temps en chaîne de caractères + affichage
+        QString temps_ecoule_heuresQString = QString("%1").arg(temps_ecoule_heures);
+        QString temps_ecoule_minutesQString = QString("%1").arg(temps_ecoule_minutes);
+        QString temps_ecoule_secondesQString = QString("%1").arg(temps_ecoule_secondes);
+        ui->lineEdit_ip_8->setText(temps_ecoule_heuresQString + " h " + temps_ecoule_minutesQString + " min " + temps_ecoule_secondesQString + " s");
+
+        //Décodage de la Latitude
+        double latitude_degre = liste[2].mid(0,2).toDouble();
+        double latitude_minutes = liste[2].mid(2,7).toDouble();
+
+        //Nord ou Sud de l'Equateur
+        QString N_ou_S = liste[3].mid(0,1);
+
+        //Calcul Latitude
+        double latitude = 0.0;
+        if( N_ou_S == "S"){
+            latitude = (latitude_degre + (latitude_minutes / 60))*(-1);
+        }else {
+            latitude = latitude_degre + (latitude_minutes / 60);
+        }
+        ui->lineEdit_ip_2->setText(QString::number(latitude));
+
+        //Décodage de la Longitude
+        double longitude_degre = liste[4].mid(0,3).toDouble();
+        double longitude_minutes = liste[4].mid(3,7).toDouble();
+
+        //Ouest ou Est de Greenwich
+        QString W_ou_E = liste[5].mid(0,1);
+
+        //Calcul Longitude
+        double longitude = 0.0;
+        if( W_ou_E == "W"){
+            longitude = (longitude_degre + (longitude_minutes / 60))*(-1);
+        }else {
+            longitude = longitude_degre + (longitude_degre / 60);
+        }
+        ui->lineEdit_ip_3->setText(QString::number(longitude));
+
+        //Type de positionnement
+        int positionnement = liste[6].mid(0,1).toInt();
+
+        //Précision horizontale
+        float précision = liste[8].mid(0,3).toFloat();
+
+        //Décodage de l'Altitude
+        float altitude = liste[9].mid(0,3).toFloat();
+        ui->lineEdit_ip_4->setText(QString::number(altitude));
+
+        //Unité altitude
+        QString unite_altitude = liste[10].mid(0,1);
+
+        //Hauteur de la géodésique au dessus de l'ellipsoïde WGS84
+        float hauteur_geodesique = liste[11].mid(0,3).toFloat();
+
+        //Unité hauteur
+        QString unite_hauteur = liste[12].mid(0,1);
+
+        //Temps depuis la dernière mise à jour DGPS
+        float temps_maj = liste[13].mid(0,3).toFloat();
+
+        //Décodage de la Fréquence cardiaque
+        int frequence_cardiaque = liste[14].mid(0,4).toInt();
+        ui->lineEdit_ip_5->setText(QString::number(frequence_cardiaque));
+
+        // Préparation du contexte de dessin sur une image existante
+        float px = 694 * ( (longitude - -1.195703 ) / (-1.136125 - -1.195703) );
+        float py = 638 * ( 1.0 - (latitude - 46.135451) / (46.173311 - 46.135451) );
+
+        QPainter p(pCarte_Transparent);
+        // Choix de la couleur
+        if ((lastpx != 0.0) && (lastpy != 0.0)){
+            p.setPen(Qt::red);
+            // Dessin d'une ligne
+            p.drawLine(lastpx, lastpy, px, py);
+            p.end();
+            ui->label_carte_transparent->setPixmap(QPixmap::fromImage(*pCarte_Transparent));
+        }
+        else {
+        }
+        lastpx = px;
+        lastpy = py;
+
+        //Calcul de FCmax
+        int age = ui->spinBox->value();
+        int FCmax = 220 - age;
+        ui->lineEdit_ip_6->setText(QString::number(FCmax));
+
+        //Calcul Intensité de l'effort
+        double Intensite = (frequence_cardiaque * 100)/FCmax;
+        ui->progressBar->setValue(Intensite);
+
+        //Distance parcourue
+        if(lastlat_rad != 0.0 && lastlong_rad != 0.0){
+            distAB = 6378.0 * acos(sin(lastlat_rad)*sin(lat_rad) + cos(lastlat_rad)* cos(lat_rad)* cos(lastlong_rad - long_rad));
+            distance = distAB +lastdistance;
+            QString distAB_string = QString("%1").arg(distance);
+            ui->lineEdit_ip_9->setText(distAB_string);
+        }else{
+
+        }
+        //Calcul des calories dépensées
+        int poids = ui->spinBox_3->value();
+        double calories = (distAB * poids * 1.036);
+        ui->lineEdit_ip_11->setText(QString::number(calories));
+
+        //Calcul vitesse
+        vitesse = distAB / temps_ecoule_heures;
+        ui->lineEdit_ip_10->setText(QString::number(temps_ecoule_heures));
+
+        //Affichage des cartes plan ou satellites
+        if(ui->checkBoxCarte->isChecked()){
+            ui->label_carte->setPixmap(QPixmap::fromImage(*pCarte));
+        }else{
+            ui->label_carte->setPixmap(QPixmap::fromImage(*pCarte_Satellite));
+        }
     }
-    lastpx = px;
-    lastpy = py;
-    qDebug()<< "px:"<<px;
-    qDebug()<< "py:"<<px;
-    qDebug()<< "lastpx:"<<lastpx;
-    qDebug()<< "lastpy:"<<lastpy;
-
-    //Calcul de FCmax
-    int age = ui->spinBox->value();
-    int FCmax = 220 - age;
-    ui->lineEdit_ip_6->setText(QString::number(FCmax));
-
-    double Intensite = (frequence_cardiaque * 100)/FCmax;
-    qDebug() << "Intensité :" << Intensite;
-    ui->progressBar->setValue(Intensite);
-
-    //AB = 6378 x arccos( sin(latA)xsin(latB) + cos(latA) x cos(latB)xcos(lonA−lonB))
-
 }
 
 void MainWindow::mettre_a_jour_ihm()

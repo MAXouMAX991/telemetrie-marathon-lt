@@ -47,8 +47,16 @@ private:
     QImage *pCarte_Satellite;
     QImage *pCarte_Transparent;
     QSqlDatabase bdd;
-    float lastpx = 0.0;
-    float lastpy = 0.0;
+    float lastpx;
+    float lastpy;
+    float lastlat_rad;
+    float lat_rad;
+    float lastlong_rad;
+    float long_rad;
+    float lastdistance;
+    float distAB;
+    float distance;
+    float vitesse;
 };
 
 #endif // MAINWINDOW_H
